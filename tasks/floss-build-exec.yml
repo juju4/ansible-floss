@@ -10,6 +10,7 @@
   pip: name={{ item }} state=present
   with_items:
     - pyinstaller
+    - libpython2.7-dev
 
 - name: build floss executable with pyinstaller
   command: "pyinstaller floss.spec creates=dist/floss chdir={{ toolsetdir }}/floss"
