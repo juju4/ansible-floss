@@ -1,0 +1,43 @@
+---
+
+#- name: git clone floss
+#  git:
+#    repo=https://github.com/fireeye/flare-floss.git
+#    dest={{ toolsetdir }}/floss
+#    version={{ floss_version }}
+
+- name: install floss source dependencies
+  pip: name={{ item }} state=present
+  with_items:
+    - pytest
+
+- block:
+    - name: install floss with pip
+      pip:
+        name: "{{ floss_pip_module }}"
+        state: present
+    - name: default floss executable
+      template: src=floss.j2 dest=/usr/local/bin/floss.py mode=0755
+  when: floss_virtualenv_path is not defined or floss_virtualenv_path == ''
+
+- block:
+    - name: virtualenv dependencies
+      package: name={{ item }} state=present
+      with_items:
+        - python-virtualenv
+        - python-pip
+    - name: ensure virtualenv user {{ floss_virtualenv_user }} exists
+      user: "name={{ floss_virtualenv_user }} home={{ floss_virtualenv_home }} state=present"
+    - name: install floss python bindings - virtualenv
+      pip:
+        name: "{{ floss_pip_module }}"
+        state: present
+        virtualenv: "{{ floss_virtualenv_path }}"
+## FIXME! end with owner root
+      become: yes
+      become: "{{ floss_virtualenv_user }}"
+## FIXME! not idempotent
+    - name: ensure right permissions
+      file: "dest={{ floss_virtualenv_path }} state=directory owner={{ floss_virtualenv_user }} recurse=yes"
+  when: floss_virtualenv_path is defined and floss_virtualenv_path != ''
+
