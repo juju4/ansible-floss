@@ -35,9 +35,9 @@
         virtualenv: "{{ floss_virtualenv_path }}"
 ## FIXME! end with owner root
       become: yes
-      become: "{{ floss_virtualenv_user }}"
+      become_user: "{{ floss_virtualenv_user }}"
 ## FIXME! not idempotent
-    - name: ensure right permissions
-      file: "dest={{ floss_virtualenv_path }} state=directory owner={{ floss_virtualenv_user }} recurse=yes"
+#    - name: ensure right permissions
+#      file: "dest={{ floss_virtualenv_path }} state=directory owner={{ floss_virtualenv_user }} recurse=yes"
   when: floss_virtualenv_path is defined and floss_virtualenv_path != ''
 
