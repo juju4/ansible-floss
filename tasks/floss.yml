@@ -8,8 +8,9 @@
 
 - include: pip-upgrade.yml
 
-- name: ensure gcc is present
-  package: name=gcc state=present
+- name: ensure development packages are present
+  package: name={{ item }} state=present
+  with_items: "{{ floss_dev_pkg }}"
 
 - name: install floss source dependencies
   pip: name={{ item }} state=present
