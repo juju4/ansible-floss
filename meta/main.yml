@@ -26,4 +26,5 @@ galaxy_info:
   - system
   - security
 dependencies:
+  - juju4.redhat-epel
   - juju4.vivisect

@@ -22,6 +22,7 @@
       pip:
         name: "{{ floss_pip_module }}"
         state: present
+        executable: "{{ floss_pip }}"
     - name: default floss executable
       template: src=floss.j2 dest=/usr/local/bin/floss.py mode=0755
   when: floss_virtualenv_path is not defined or floss_virtualenv_path == ''
@@ -39,6 +40,7 @@
         name: "{{ floss_pip_module }}"
         state: present
         virtualenv: "{{ floss_virtualenv_path }}"
+        executable: "{{ floss_pip }}"
 ## FIXME! end with owner root
       become: yes
       become_user: "{{ floss_virtualenv_user }}"

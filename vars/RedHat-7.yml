@@ -1,6 +1,9 @@
 ---
 
+floss_pip: pip3
 floss_dev_pkg:
   - gcc
-  - python-devel
+  - python34
+  - python34-devel
+  - python34-pip
 
