@@ -6,11 +6,11 @@
 #    dest={{ toolsetdir }}/floss
 #    version={{ floss_version }}
 
-- include: pip-upgrade.yml
-
 - name: ensure development packages are present
   package: name={{ item }} state=present
   with_items: "{{ floss_dev_pkg }}"
+
+- include: pip-upgrade.yml
 
 - name: install floss source dependencies
   pip: name={{ item }} state=present
