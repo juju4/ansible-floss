@@ -19,6 +19,8 @@
     executable: "{{ floss_pip }}"
   with_items:
     - pytest
+## https://github.com/erocarrera/pefile/issues/105
+    - https://github.com/erocarrera/pefile/archive/master.zip
 
 - block:
     - name: install floss with pip
