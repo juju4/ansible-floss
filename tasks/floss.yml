@@ -13,7 +13,10 @@
 - include: pip-upgrade.yml
 
 - name: install floss source dependencies
-  pip: name={{ item }} state=present
+  pip:
+    name: "{{ item }}"
+    state: present
+    executable: "{{ floss_pip }}"
   with_items:
     - pytest
 
