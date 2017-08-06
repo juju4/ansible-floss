@@ -25,4 +25,6 @@ suites:
   - name: default
     run_list:
     attributes:
-
+  - name: default-virtualenv
+    run_list:
+    attributes:

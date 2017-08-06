@@ -10,6 +10,7 @@ https://github.com/fireeye/flare-floss
 ### Ansible
 It was tested on the following versions:
  * 2.2
+ * 2.3
 
 ### Operating systems
 
