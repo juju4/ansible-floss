@@ -11,11 +11,15 @@
     name: libpython2.7-dev
     state: present
   when: ansible_distribution_release == 'trusty'
+  register: pkg_result
+  until: pkg_result is success
 
 - name: install floss executable build pip dependencies
   pip:
     name: pyinstaller
     state: present
+  register: pkg_result
+  until: pkg_result is success
 
 - name: build floss executable with pyinstaller
   command: "pyinstaller floss.spec"

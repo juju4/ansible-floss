@@ -9,6 +9,8 @@
 - name: ensure development packages are present
   package: name={{ item }} state=present
   with_items: "{{ floss_dev_pkg }}"
+  register: pkg_result
+  until: pkg_result is success
 
 - include: pip-upgrade.yml
 
@@ -21,6 +23,8 @@
     - pytest
 ## https://github.com/erocarrera/pefile/issues/105
     - https://github.com/erocarrera/pefile/archive/master.zip
+  register: pkg_result
+  until: pkg_result is success
 
 - block:
     - name: install floss with pip
@@ -28,6 +32,8 @@
         name: "{{ floss_pip_module }}"
         state: present
         executable: "{{ floss_pip }}"
+        register: pkg_result
+        until: pkg_result is success
     - name: default floss executable
       template: src=floss.j2 dest=/usr/local/bin/floss.py mode=0755
   when: floss_virtualenv_path is not defined or not floss_virtualenv_path
@@ -36,6 +42,8 @@
     - name: virtualenv dependencies
       package: name={{ item }} state=present
       with_items: "{{ floss_virtualenv }}"
+      register: pkg_result
+      until: pkg_result is success
 
     - name: ensure virtualenv user {{ floss_virtualenv_user }} exists
       user:
@@ -52,6 +60,8 @@
 ## FIXME! end with owner root
       become: yes
       become_user: "{{ floss_virtualenv_user }}"
+      register: pkg_result
+      until: pkg_result is success
 
 ## FIXME! not idempotent
 #    - name: ensure right permissions
