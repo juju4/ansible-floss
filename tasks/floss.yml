@@ -32,8 +32,8 @@
         name: "{{ floss_pip_module }}"
         state: present
         executable: "{{ floss_pip }}"
-        register: pkg_result
-        until: pkg_result is success
+      register: pkg_result
+      until: pkg_result is success
     - name: default floss executable
       template: src=floss.j2 dest=/usr/local/bin/floss.py mode=0755
   when: floss_virtualenv_path is not defined or not floss_virtualenv_path
