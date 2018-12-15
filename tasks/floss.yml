@@ -30,7 +30,7 @@
         executable: "{{ floss_pip }}"
     - name: default floss executable
       template: src=floss.j2 dest=/usr/local/bin/floss.py mode=0755
-  when: floss_virtualenv_path is not defined or floss_virtualenv_path == ''
+  when: floss_virtualenv_path is not defined or not floss_virtualenv_path
 
 - block:
     - name: virtualenv dependencies
@@ -38,7 +38,10 @@
       with_items: "{{ floss_virtualenv }}"
 
     - name: ensure virtualenv user {{ floss_virtualenv_user }} exists
-      user: "name={{ floss_virtualenv_user }} home={{ floss_virtualenv_home }} state=present"
+      user:
+        name: "{{ floss_virtualenv_user }}"
+        home: "{{ floss_virtualenv_home }}"
+        state: present
 
     - name: install floss python bindings - virtualenv
       pip:
@@ -53,5 +56,4 @@
 ## FIXME! not idempotent
 #    - name: ensure right permissions
 #      file: "dest={{ floss_virtualenv_path }} state=directory owner={{ floss_virtualenv_user }} recurse=yes"
-  when: floss_virtualenv_path is defined and floss_virtualenv_path != ''
-
+  when: floss_virtualenv_path is defined and floss_virtualenv_path
