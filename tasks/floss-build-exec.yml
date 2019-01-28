@@ -18,6 +18,7 @@
   pip:
     name: pyinstaller
     state: present
+    executable: pip3
   register: pkg_result
   until: pkg_result is success
 
