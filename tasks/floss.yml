@@ -7,22 +7,18 @@
 #    version={{ floss_version }}
 
 - name: ensure development packages are present
-  package: name={{ item }} state=present
-  with_items: "{{ floss_dev_pkg }}"
+  package: name={{ floss_dev_pkg }} state=present
   register: pkg_result
   until: pkg_result is success
 
 - include: pip-upgrade.yml
 
+## https://github.com/erocarrera/pefile/issues/105
 - name: install floss source dependencies
   pip:
-    name: "{{ item }}"
+    name: ['pytest', 'https://github.com/erocarrera/pefile/archive/master.zip']
     state: present
     executable: "{{ floss_pip }}"
-  with_items:
-    - pytest
-## https://github.com/erocarrera/pefile/issues/105
-    - https://github.com/erocarrera/pefile/archive/master.zip
   register: pkg_result
   until: pkg_result is success
 
