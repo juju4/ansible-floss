@@ -96,6 +96,15 @@ script:
 ## travis/docker: Errno::EROFS: Read-only file system @ dir_s_mkdir - /etc/ansible/roles/juju4.floss/test/integration/${suite}/serverspec/.bundle
 #  - 'sudo docker exec --tty "$(cat ${container_id})" /etc/ansible/roles/juju4.floss/test/integration/${suite}/serverspec/run-local-tests.sh'
 
+after_failure:
+  - 'sudo docker exec --tty "$(cat ${container_id})" python --version'
+  - 'sudo docker exec --tty "$(cat ${container_id})" python3 --version'
+  - 'sudo docker exec --tty "$(cat ${container_id})" python3.4 --version'
+  - 'sudo docker exec --tty "$(cat ${container_id})" which pip'
+  - 'sudo docker exec --tty "$(cat ${container_id})" which pip3'
+  - 'sudo docker exec --tty "$(cat ${container_id})" which pip3.4'
+
+after_script:
   # Clean up
   - 'sudo docker stop "$(cat ${container_id})"'
 
