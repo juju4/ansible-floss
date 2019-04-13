@@ -100,9 +100,9 @@ after_failure:
   - 'sudo docker exec --tty "$(cat ${container_id})" python --version'
   - 'sudo docker exec --tty "$(cat ${container_id})" python3 --version'
   - 'sudo docker exec --tty "$(cat ${container_id})" python3.4 --version'
-  - 'sudo docker exec --tty "$(cat ${container_id})" which pip'
-  - 'sudo docker exec --tty "$(cat ${container_id})" which pip3'
-  - 'sudo docker exec --tty "$(cat ${container_id})" which pip3.4'
+  - 'sudo docker exec --tty "$(cat ${container_id})" pip --version'
+  - 'sudo docker exec --tty "$(cat ${container_id})" pip3 --version'
+  - 'sudo docker exec --tty "$(cat ${container_id})" pip3.4 --version'
 
 after_script:
   # Clean up
