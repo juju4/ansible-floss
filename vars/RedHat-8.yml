@@ -1,0 +1,14 @@
+---
+
+floss_pip: pip3
+floss_dev_pkg:
+  - gcc
+  - python3
+  - python3-devel
+  - python3-pip
+
+floss_python: python3
+floss_virtualenv:
+  - python-virtualenv
+
+floss_pyinstaller_version: 3.3.1
