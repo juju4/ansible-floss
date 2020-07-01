@@ -1,7 +1,6 @@
 ---
 
 - hosts: all
-#- hosts: test-kitchen
   vars:
     - vivisect_pip: pip3
     - vivisect_vcommand: virtualenv3
