@@ -7,8 +7,9 @@ floss_dev_pkg:
   - python3-dev
   - python3-pip
 
-floss_python: python3
-floss_virtualenv:
+_floss_python: python3
+_floss_virtualenv: virtualenv
+_floss_virtualenv_pkg:
   - python3-pip
   - python3-virtualenv
   - virtualenv

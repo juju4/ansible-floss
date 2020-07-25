@@ -7,7 +7,7 @@
 - name: check current pip version
   shell: |
     set -o pipefail
-    {{ floss_pip }} --version | sed "s/pip \(.*\) from .*/\1/"
+    {{ floss_pip | default(_floss_pip) }} --version | sed "s/pip \(.*\) from .*/\1/"
   args:
     executable: /bin/bash
   changed_when: false

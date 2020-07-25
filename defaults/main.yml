@@ -12,3 +12,8 @@ floss_pip_module: git+https://github.com/fireeye/flare-floss@11d8d4c53e7734460fe
 #floss_virtualenv_path: /path/to/env
 #floss_virtualenv_user: user
 #floss_virtualenv_home: /path/home
+
+## using python2 or 3? default to 3 WIP and vivisect only python2 (vivisect#PR163)
+#floss_pip: pip
+#floss_virtualenv: virtualenv
+#floss_python: python

@@ -19,6 +19,7 @@
     name: pyinstaller
     version: "{{ floss_pyinstaller_version | default('3.6') }}"
     state: present
+    executable: "{{ floss_pip | default(_floss_pip) }}"
   register: pkg_result
   until: pkg_result is success
 

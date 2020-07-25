@@ -18,7 +18,7 @@
   pip:
     name: ['pytest', 'https://github.com/erocarrera/pefile/archive/master.zip']
     state: present
-    executable: "{{ floss_pip }}"
+    executable: "{{ floss_pip | default(_floss_pip) }}"
   register: pkg_result
   until: pkg_result is success
 
@@ -27,7 +27,7 @@
       pip:
         name: "{{ floss_pip_module }}"
         state: present
-        executable: "{{ floss_pip }}"
+        executable: "{{ floss_pip | default(_floss_pip) }}"
       register: pkg_result
       until: pkg_result is success
     - name: default floss executable
@@ -37,7 +37,7 @@
 - block:
     - name: virtualenv dependencies
       package: name={{ item }} state=present
-      with_items: "{{ floss_virtualenv }}"
+      with_items: "{{ floss_virtualenv_pkg | default(_floss_virtualenv_pkg) }}"
       register: pkg_result
       until: pkg_result is success
 
@@ -52,7 +52,7 @@
         name: "{{ floss_pip_module }}"
         state: present
         virtualenv: "{{ floss_virtualenv_path }}"
-        virtualenv_python: "{{ floss_python }}"
+        virtualenv_python: "{{ floss_python | default(_floss_python) }}"
 ## FIXME! end with owner root
       become: yes
       become_user: "{{ floss_virtualenv_user }}"

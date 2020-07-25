@@ -53,7 +53,7 @@ $ vagrant ssh
 
 ## Troubleshooting & Known issues
 
-* [Python3 support #305](https://github.com/fireeye/flare-floss/issues/305)
+* [Python3 support #305](https://github.com/fireeye/flare-floss/issues/305), [Vivisect - Python 3 port #163](https://github.com/vivisect/vivisect/pull/163)
 * [TypeError: an integer is required (got type bytes) when compiling any script #4265](https://github.com/pyinstaller/pyinstaller/issues/4265)
 
 ## License

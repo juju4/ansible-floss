@@ -43,6 +43,16 @@ env:
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-virtualenv
+  - distribution: ubuntu
+    version: 18.04
+    init: /lib/systemd/systemd
+    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+    suite: default-python3
+  - distribution: ubuntu
+    version: 18.04
+    init: /lib/systemd/systemd
+    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+    suite: default-HEAD
 
 services:
   - docker
@@ -91,6 +101,7 @@ after_failure:
   - 'sudo docker exec --tty "$(cat ${container_id})" pip --version'
   - 'sudo docker exec --tty "$(cat ${container_id})" pip3 --version'
   - 'sudo docker exec --tty "$(cat ${container_id})" pip3.4 --version'
+  - 'sudo docker exec --tty "$(cat ${container_id})" pip3 freeze'
 
 after_script:
   # Clean up
