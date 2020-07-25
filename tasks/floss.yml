@@ -16,7 +16,7 @@
 ## https://github.com/erocarrera/pefile/issues/105
 - name: install floss source dependencies
   pip:
-    name: ['pytest', 'https://github.com/erocarrera/pefile/archive/master.zip']
+    name: ['pytest', 'git+https://github.com/erocarrera/pefile@master']
     state: present
     executable: "{{ floss_pip | default(_floss_pip) }}"
   register: pkg_result
