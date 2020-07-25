@@ -2,72 +2,86 @@
 ## from https://github.com/geerlingguy/ansible-role-apache/blob/master/.travis.yml
 sudo: required
 
-env:
-  - distribution: centos
-    version: 8
-    init: /usr/lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default
-  - distribution: centos
-    version: 7
-    init: /usr/lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default
-#  - distribution: ubuntu
-#    version: 20.04
-#    init: /lib/systemd/systemd
-#    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-#    suite: default
-  - distribution: ubuntu
-    version: 18.04
-    init: /lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default
-  - distribution: centos
-    version: 8
-    init: /usr/lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default-virtualenv
-  - distribution: centos
-    version: 7
-    init: /usr/lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default-virtualenv
-#  - distribution: ubuntu
-#    version: 20.04
-#    init: /lib/systemd/systemd
-#    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-#    suite: default-virtualenv
-  - distribution: ubuntu
-    version: 18.04
-    init: /lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default-virtualenv
-  - distribution: centos
-    version: 8
-    init: /lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default-python3
-  - distribution: ubuntu
-    version: 20.04
-    init: /lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default-python3
-  - distribution: ubuntu
-    version: 18.04
-    init: /lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default-python3
-  - distribution: centos
-    version: 8
-    init: /lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default-HEAD
-  - distribution: ubuntu
-    version: 18.04
-    init: /lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default-HEAD
+jobs:
+  include:
+    - stage: ansible-lint
+      name: Ansible Lint
+      before_install: true
+      script:
+        - ansible-lint tasks/main.yml || true
+      after_script: true
+    - stage: play
+      name: Play test suites
+      env:
+        - distribution: centos
+          version: 8
+          init: /usr/lib/systemd/systemd
+          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+          suite: default
+        - distribution: centos
+          version: 7
+          init: /usr/lib/systemd/systemd
+          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+          suite: default
+#        - distribution: ubuntu
+#          version: 20.04
+#          init: /lib/systemd/systemd
+#          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+#          suite: default
+        - distribution: ubuntu
+          version: 18.04
+          init: /lib/systemd/systemd
+          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+          suite: default
+        - distribution: centos
+          version: 8
+          init: /usr/lib/systemd/systemd
+          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+          suite: default-virtualenv
+        - distribution: centos
+          version: 7
+          init: /usr/lib/systemd/systemd
+          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+          suite: default-virtualenv
+#        - distribution: ubuntu
+#          version: 20.04
+#          init: /lib/systemd/systemd
+#          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+#          suite: default-virtualenv
+        - distribution: ubuntu
+          version: 18.04
+          init: /lib/systemd/systemd
+          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+          suite: default-virtualenv
+        - distribution: centos
+          version: 8
+          init: /lib/systemd/systemd
+          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+          suite: default-python3
+        - distribution: ubuntu
+          version: 20.04
+          init: /lib/systemd/systemd
+          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+          suite: default-python3
+        - distribution: ubuntu
+          version: 18.04
+          init: /lib/systemd/systemd
+          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+          suite: default-python3
+    - stage: playdev
+      name: Play test suites devel only
+      if: branch =~ /^devel*/
+      env:
+        - distribution: centos
+          version: 8
+          init: /lib/systemd/systemd
+          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+          suite: default-HEAD
+        - distribution: ubuntu
+          version: 18.04
+          init: /lib/systemd/systemd
+          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+          suite: default-HEAD
 
 services:
   - docker
@@ -79,6 +93,7 @@ before_install:
   - env
   - pwd
   - find -ls
+  - sudo pip install ansible-lint
   - "[ -f get-dependencies.sh ] && sh -x get-dependencies.sh"
   - cp test/travis/initctl_faker test/
   # Customize container
