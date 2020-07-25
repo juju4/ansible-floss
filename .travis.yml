@@ -9,7 +9,7 @@ jobs:
       before_install:
         - sudo pip install ansible-lint
       script:
-        - ansible-lint tasks/main.yml || true
+        - ansible-lint tasks/main.yml
       after_script: true
     - stage: play
       name: Play test suites - Centos 8
