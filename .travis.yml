@@ -6,18 +6,22 @@ jobs:
   include:
     - stage: ansible-lint
       name: Ansible Lint
-      before_install: true
+      before_install:
+        - sudo pip install ansible-lint
       script:
         - ansible-lint tasks/main.yml || true
       after_script: true
     - stage: play
-      name: Play test suites
+      name: Play test suites - Centos 8
       env:
         - distribution: centos
           version: 8
           init: /usr/lib/systemd/systemd
           run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
           suite: default
+    - stage: play
+      name: Play test suites - Centos 7
+      env:
         - distribution: centos
           version: 7
           init: /usr/lib/systemd/systemd
@@ -28,16 +32,25 @@ jobs:
 #          init: /lib/systemd/systemd
 #          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
 #          suite: default
+    - stage: play
+      name: Play test suites - Ubuntu 18.04
+      env:
         - distribution: ubuntu
           version: 18.04
           init: /lib/systemd/systemd
           run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
           suite: default
+    - stage: play
+      name: Play test suites - Centos 8 virtualenv
+      env:
         - distribution: centos
           version: 8
           init: /usr/lib/systemd/systemd
           run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
           suite: default-virtualenv
+    - stage: play
+      name: Play test suites - Centos 7 virtualenv
+      env:
         - distribution: centos
           version: 7
           init: /usr/lib/systemd/systemd
@@ -48,28 +61,40 @@ jobs:
 #          init: /lib/systemd/systemd
 #          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
 #          suite: default-virtualenv
+    - stage: play
+      name: Play test suites - Ubuntu 18.04 virtualenv
+      env:
         - distribution: ubuntu
           version: 18.04
           init: /lib/systemd/systemd
           run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
           suite: default-virtualenv
+    - stage: play
+      name: Play test suites - Centos 8 python3
+      env:
         - distribution: centos
           version: 8
           init: /lib/systemd/systemd
           run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
           suite: default-python3
+    - stage: play
+      name: Play test suites - Ubuntu 20.04 python3
+      env:
         - distribution: ubuntu
           version: 20.04
           init: /lib/systemd/systemd
           run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
           suite: default-python3
+    - stage: play
+      name: Play test suites - Ubuntu 18.04 python3
+      env:
         - distribution: ubuntu
           version: 18.04
           init: /lib/systemd/systemd
           run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
           suite: default-python3
     - stage: playdev
-      name: Play test suites devel only
+      name: Play test suites devel only - Centos 8 HEAD
       if: branch =~ /^devel*/
       env:
         - distribution: centos
@@ -77,6 +102,10 @@ jobs:
           init: /lib/systemd/systemd
           run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
           suite: default-HEAD
+    - stage: playdev
+      name: Play test suites devel only - Ubuntu 18.04 HEAD
+      if: branch =~ /^devel*/
+      env:
         - distribution: ubuntu
           version: 18.04
           init: /lib/systemd/systemd
@@ -93,7 +122,6 @@ before_install:
   - env
   - pwd
   - find -ls
-  - sudo pip install ansible-lint
   - "[ -f get-dependencies.sh ] && sh -x get-dependencies.sh"
   - cp test/travis/initctl_faker test/
   # Customize container
