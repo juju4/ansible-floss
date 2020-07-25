@@ -1,6 +1,5 @@
 ---
 
-floss_pip: pip3
 floss_dev_pkg:
   - gcc
   - python3
@@ -8,6 +7,7 @@ floss_dev_pkg:
   - python3-pip
 
 _floss_python: python3
+_floss_pip: pip3
 _floss_virtualenv: virtualenv
 _floss_virtualenv_pkg:
   - python3-pip
