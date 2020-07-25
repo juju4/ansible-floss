@@ -13,11 +13,11 @@ env:
     init: /usr/lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
-  - distribution: ubuntu
-    version: 20.04
-    init: /lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default
+#  - distribution: ubuntu
+#    version: 20.04
+#    init: /lib/systemd/systemd
+#    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+#    suite: default
   - distribution: ubuntu
     version: 18.04
     init: /lib/systemd/systemd
@@ -33,21 +33,36 @@ env:
     init: /usr/lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-virtualenv
-  - distribution: ubuntu
-    version: 20.04
-    init: /lib/systemd/systemd
-    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-    suite: default-virtualenv
+#  - distribution: ubuntu
+#    version: 20.04
+#    init: /lib/systemd/systemd
+#    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+#    suite: default-virtualenv
   - distribution: ubuntu
     version: 18.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-virtualenv
+  - distribution: centos
+    version: 8
+    init: /lib/systemd/systemd
+    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+    suite: default-python3
+  - distribution: ubuntu
+    version: 20.04
+    init: /lib/systemd/systemd
+    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+    suite: default-python3
   - distribution: ubuntu
     version: 18.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default-python3
+  - distribution: centos
+    version: 8
+    init: /lib/systemd/systemd
+    run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+    suite: default-HEAD
   - distribution: ubuntu
     version: 18.04
     init: /lib/systemd/systemd
@@ -96,11 +111,15 @@ script:
 
 after_failure:
   - 'sudo docker exec --tty "$(cat ${container_id})" python --version'
+  - 'sudo docker exec --tty "$(cat ${container_id})" python2 --version'
   - 'sudo docker exec --tty "$(cat ${container_id})" python3 --version'
   - 'sudo docker exec --tty "$(cat ${container_id})" python3.4 --version'
   - 'sudo docker exec --tty "$(cat ${container_id})" pip --version'
+  - 'sudo docker exec --tty "$(cat ${container_id})" pip2 --version'
   - 'sudo docker exec --tty "$(cat ${container_id})" pip3 --version'
   - 'sudo docker exec --tty "$(cat ${container_id})" pip3.4 --version'
+  - 'sudo docker exec --tty "$(cat ${container_id})" pip freeze'
+  - 'sudo docker exec --tty "$(cat ${container_id})" pip2 freeze'
   - 'sudo docker exec --tty "$(cat ${container_id})" pip3 freeze'
 
 after_script:

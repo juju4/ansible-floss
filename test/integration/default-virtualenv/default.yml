@@ -8,12 +8,33 @@
     - vivisect_virtualenv_user: test
     - vivisect_virtualenv_home: /home/test
     - vivisect_virtualenv_path: /home/test/env
-    #- vivisect_version: v0.0.20200611
-    - vivisect_pip_module: https://github.com/vivisect/vivisect/archive/a383cea093bd51d748add0c08f7f4f319ff33e9d.zip
     - vivisect_pip: pip2
     - vivisect_vcommand: virtualenv
     - floss_pip: pip2
     - floss_virtualenv: virtualenv
     - floss_python: python2
+  pre_tasks:
+    - set_fact:
+        vivisect_pip: pip2
+        vivisect_deps:
+          - python2
+          - python2-pip
+        vivisect_virtualenv:
+          - python2-virtualenv
+        floss_pip: pip2
+        floss_virtualenv: virtualenv
+        floss_python: python2
+      when: ansible_os_family == "RedHat" and ansible_distribution_version.split('.')[0] == '8'
+    - set_fact:
+        vivisect_pip: pip
+        vivisect_deps:
+          - python
+          - python-pip
+        vivisect_virtualenv:
+          - python-virtualenv
+        floss_pip: pip
+        floss_virtualenv: virtualenv
+        floss_python: python
+      when: ansible_os_family == "RedHat" and ansible_distribution_version.split('.')[0] == '7'
   roles:
     - juju4.floss
