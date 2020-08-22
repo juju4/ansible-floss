@@ -69,30 +69,6 @@ jobs:
           init: /lib/systemd/systemd
           run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
           suite: default-virtualenv
-    - stage: play
-      name: Play test suites - Centos 8 python3
-      env:
-        - distribution: centos
-          version: 8
-          init: /lib/systemd/systemd
-          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-          suite: default-python3
-    - stage: play
-      name: Play test suites - Ubuntu 20.04 python3
-      env:
-        - distribution: ubuntu
-          version: 20.04
-          init: /lib/systemd/systemd
-          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-          suite: default-python3
-    - stage: play
-      name: Play test suites - Ubuntu 18.04 python3
-      env:
-        - distribution: ubuntu
-          version: 18.04
-          init: /lib/systemd/systemd
-          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-          suite: default-python3
     - stage: playdev
       name: Play test suites devel only - Centos 8 HEAD
       if: branch =~ /^devel*/
