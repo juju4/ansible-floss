@@ -27,11 +27,11 @@ jobs:
           init: /usr/lib/systemd/systemd
           run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
           suite: default
-#        - distribution: ubuntu
-#          version: 20.04
-#          init: /lib/systemd/systemd
-#          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-#          suite: default
+          # - distribution: ubuntu
+          #   version: 20.04
+          #   init: /lib/systemd/systemd
+          #   run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+          #   suite: default
     - stage: play
       name: Play test suites - Ubuntu 18.04
       env:
@@ -56,11 +56,11 @@ jobs:
           init: /usr/lib/systemd/systemd
           run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
           suite: default-virtualenv
-#        - distribution: ubuntu
-#          version: 20.04
-#          init: /lib/systemd/systemd
-#          run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
-#          suite: default-virtualenv
+          # - distribution: ubuntu
+          #   version: 20.04
+          #   init: /lib/systemd/systemd
+          #   run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
+          #   suite: default-virtualenv
     - stage: play
       name: Play test suites - Ubuntu 18.04 virtualenv
       env:
@@ -105,7 +105,7 @@ before_install:
 
 script:
   - container_id=$(mktemp)
-    # Run container in detached state
+  # Run container in detached state
   - 'sudo docker run --detach --volume="${PWD%/*}":/etc/ansible/roles:ro ${run_opts} ${distribution}-${version}:ansible "${init}" > "${container_id}"'
 
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible --version'
@@ -125,8 +125,8 @@ script:
     || (echo 'Idempotence test: fail' && cat /tmp/idempotency.log && exit 0)
 
   # serverspec tests
-## travis/docker: Errno::EROFS: Read-only file system @ dir_s_mkdir - /etc/ansible/roles/juju4.floss/test/integration/${suite}/serverspec/.bundle
-#  - 'sudo docker exec --tty "$(cat ${container_id})" /etc/ansible/roles/juju4.floss/test/integration/${suite}/serverspec/run-local-tests.sh'
+  ## travis/docker: Errno::EROFS: Read-only file system @ dir_s_mkdir - /etc/ansible/roles/juju4.floss/test/integration/${suite}/serverspec/.bundle
+  # - 'sudo docker exec --tty "$(cat ${container_id})" /etc/ansible/roles/juju4.floss/test/integration/${suite}/serverspec/run-local-tests.sh'
 
 after_failure:
   - 'sudo docker exec --tty "$(cat ${container_id})" python --version'

@@ -1,10 +1,10 @@
 ---
 
-#- name: git clone floss
-#  git:
-#    repo=https://github.com/fireeye/flare-floss.git
-#    dest={{ toolsetdir }}/floss
-#    version={{ floss_version }}
+# - name: git clone floss
+#   git:
+#     repo=https://github.com/fireeye/flare-floss.git
+#     dest={{ toolsetdir }}/floss
+#     version={{ floss_version }}
 
 - name: ensure development packages are present
   package: name={{ floss_dev_pkg }} state=present
@@ -53,13 +53,13 @@
         state: present
         virtualenv: "{{ floss_virtualenv_path }}"
         virtualenv_python: "{{ floss_python | default(_floss_python) }}"
-## FIXME! end with owner root
+      ## FIXME! end with owner root
       become: yes
       become_user: "{{ floss_virtualenv_user }}"
       register: pkg_result
       until: pkg_result is success
 
-## FIXME! not idempotent
-#    - name: ensure right permissions
-#      file: "dest={{ floss_virtualenv_path }} state=directory owner={{ floss_virtualenv_user }} recurse=yes"
+      ## FIXME! not idempotent
+      # - name: ensure right permissions
+      #   file: "dest={{ floss_virtualenv_path }} state=directory owner={{ floss_virtualenv_user }} recurse=yes"
   when: floss_virtualenv_path is defined and floss_virtualenv_path

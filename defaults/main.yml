@@ -3,17 +3,17 @@
 toolsetdir: /opt/tools
 
 # 'Could not find a version that satisfies the requirement vivisect==v0.0.20200611 (from floss==1.6.1) (from versions: )"'
-#floss_version: HEAD
-#floss_pip_module: https://github.com/fireeye/flare-floss/zipball/master
+# floss_version: HEAD
+# floss_pip_module: https://github.com/fireeye/flare-floss/zipball/master
 floss_version: 11d8d4c53e7734460fe3c214fb197e5cf0f8dbdd
 floss_pip_module: git+https://github.com/fireeye/flare-floss@11d8d4c53e7734460fe3c214fb197e5cf0f8dbdd
 
 ## if undefined, global install, else in corresponding virtualenv
-#floss_virtualenv_path: /path/to/env
-#floss_virtualenv_user: user
-#floss_virtualenv_home: /path/home
+# floss_virtualenv_path: /path/to/env
+# floss_virtualenv_user: user
+# floss_virtualenv_home: /path/home
 
 ## using python2 or 3? default to 3 WIP and vivisect only python2 (vivisect#PR163)
-#floss_pip: pip
-#floss_virtualenv: virtualenv
-#floss_python: python
+# floss_pip: pip
+# floss_virtualenv: virtualenv
+# floss_python: python
