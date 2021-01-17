@@ -6,6 +6,7 @@ floss_dev_pkg:
   - python34
   - python34-devel
   - python34-pip
+  - git
 
 _floss_python: python3.4
 _floss_virtualenv: virtualenv

@@ -3,3 +3,4 @@
 floss_dev_pkg:
   - gcc
   - python-dev
+  - git

@@ -6,3 +6,4 @@ floss_dev_pkg:
   - python
   - python-devel
   - python-pip
+  - git
