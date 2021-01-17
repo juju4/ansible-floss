@@ -25,10 +25,14 @@ provisioner:
 scenario:
   name: default
   test_sequence:
+    - dependency
+    - lint
+    - cleanup
     - destroy
+    - syntax
     - create
+    - prepare
     - converge
     # - idempotence
-    - lint
 verifier:
   name: ansible
