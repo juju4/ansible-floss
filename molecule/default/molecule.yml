@@ -34,5 +34,6 @@ scenario:
     - prepare
     - converge
     # - idempotence
+    - verify
 verifier:
   name: ansible
