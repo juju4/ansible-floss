@@ -1,5 +1,9 @@
 [![Build Status - Master](https://travis-ci.org/juju4/ansible-floss.svg?branch=master)](https://travis-ci.org/juju4/ansible-floss)
 [![Build Status - Devel](https://travis-ci.org/juju4/ansible-floss.svg?branch=devel)](https://travis-ci.org/juju4/ansible-floss/branches)
+
+[![Actions Status - Master](https://github.com/juju4/ansible-floss/workflows/AnsibleCI/badge.svg)](https://github.com/juju4/ansible-floss/actions?query=branch%3Amaster)
+[![Actions Status - Devel](https://github.com/juju4/ansible-floss/workflows/AnsibleCI/badge.svg?branch=devel)](https://github.com/juju4/ansible-floss/actions?query=branch%3Adevel)
+
 # FireEye Labs Obfuscated String Solver (FLOSS) ansible role
 
 Ansible role to setup FLOSS or FireEye Labs Obfuscated String Solver to automatically extract obfuscated strings from malware
