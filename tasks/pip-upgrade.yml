@@ -24,10 +24,10 @@
         version: 20.3.4
       when: ansible_os_family != "Debian"
 
-    - name: upgrade setuptools to 51.3.3 - last python2
+    - name: upgrade setuptools to 44.1.1 - last python2
       pip:
         name: setuptools
-        version: 51.3.3
+        version: 44.1.1
       when: ansible_os_family != "Debian"
 
   when: pipv.stdout|int is version_compare( '10.1', '<')
