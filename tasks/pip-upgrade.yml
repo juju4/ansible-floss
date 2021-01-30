@@ -18,12 +18,16 @@
 ## does not seem to be handled well by ansible pip module
 - block:
 
-    - name: upgrade pip to latest
-      command: pip install --upgrade pip
+    - name: upgrade pip to 20.3.4 - last python2
+      pip:
+        name: pip
+        version: 20.3.4
       when: ansible_os_family != "Debian"
 
-    - name: upgrade setuptools to latest
-      command: pip install --upgrade setuptools
+    - name: upgrade setuptools to 51.3.3 - last python2
+      pip:
+        name: setuptools
+        version: 51.3.3
       when: ansible_os_family != "Debian"
 
   when: pipv.stdout|int is version_compare( '10.1', '<')
