@@ -151,9 +151,11 @@ jobs:
         continue-on-error: true
       - name: After script - python
         run: |
+          cd $GITHUB_WORKSPACE/juju4.floss
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'pip freeze'
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'pip show vivisect'
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'pip show floss'
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'pip3 freeze'
+          sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'ls -lA /usr/local/bin/'
         if: ${{ always() }}
         continue-on-error: true
