@@ -10,7 +10,7 @@ set :backend, :exec
 #end
 
 
-describe command('pip3 freeze') do
+describe command('pip freeze') do
   its(:stdout) { should match /floss/ }
   its(:exit_status) { should eq 0 }
 end
