@@ -25,7 +25,7 @@
   until: pkg_result is success
 
 - name: build floss executable with pyinstaller
-  command: "pyinstaller floss.spec"
+  command: "pyinstaller .github/pyinstaller/floss.spec"
   args:
     creates: dist/floss
     chdir: "{{ toolsetdir }}/floss"
