@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: floss
   author: juju4
   description: FireEye Labs Obfuscated String Solver - Automatically extract obfuscated strings from malware
   license: BSD
