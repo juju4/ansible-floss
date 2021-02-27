@@ -15,3 +15,14 @@ describe command('pip3 freeze') do
   its(:exit_status) { should eq 0 }
 end
 
+describe file('/usr/local/bin/floss.py') do
+  it { should be_file }
+  it { should be_mode 755 }
+  its(:size) { should > 0 }
+end
+
+describe file('/usr/local/bin/floss') do
+  it { should be_file }
+  it { should be_mode 755 }
+  its(:size) { should > 0 }
+end
