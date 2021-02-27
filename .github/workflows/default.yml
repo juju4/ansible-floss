@@ -127,6 +127,12 @@ jobs:
           CHEF_LICENSE: accept-no-persist
           KITCHEN_LOCAL_YAML: $GITHUB_WORKSPACE/juju4.floss/.kitchen.yml
           TERM: xterm-256color
+      - name: On failure - idempotency
+        run: |
+          cd $GITHUB_WORKSPACE/juju4.floss
+          sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'cat /tmp/idempotency.test' || true
+        if: ${{ failure() }}
+        continue-on-error: true
       - name: On failure
         run: |
           cd $GITHUB_WORKSPACE/juju4.floss
