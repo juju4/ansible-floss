@@ -10,7 +10,8 @@
     - floss_version: HEAD
     - floss_pip_module: https://github.com/fireeye/flare-floss/zipball/master
   pre_tasks:
-    - set_fact:
+    - name: RHEL8 | set fact
+      set_fact:
         vivisect_pip: pip2
         vivisect_deps:
           - python2
@@ -21,7 +22,8 @@
         floss_virtualenv: virtualenv
         floss_python: python2
       when: ansible_os_family == "RedHat" and ansible_distribution_version.split('.')[0] == '8'
-    - set_fact:
+    - name: RHEL7 | set fact
+      set_fact:
         vivisect_pip: pip
         vivisect_deps:
           - python
