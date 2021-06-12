@@ -14,4 +14,3 @@ describe command('pip3 freeze') do
   its(:stdout) { should match /floss/ }
   its(:exit_status) { should eq 0 }
 end
-
