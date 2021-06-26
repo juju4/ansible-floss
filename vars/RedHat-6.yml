@@ -1,6 +1,6 @@
 ---
 
-floss_pip: pip
+_floss_pip: pip
 floss_dev_pkg:
   - gcc
   - python

@@ -13,6 +13,7 @@
   pre_tasks:
     - name: RHEL7 | set fact
       set_fact:
+        floss_pip: pip3.6
         vivisect_pip: pip3.6
         vivisect_deps:
           - python36
