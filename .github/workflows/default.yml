@@ -143,7 +143,6 @@ jobs:
       - name: On failure
         run: |
           cd $GITHUB_WORKSPACE/juju4.floss
-          sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'ansible -i inventory --connection=local -m setup localhost' || true
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'systemctl -l --no-pager status' || true
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'systemctl -l --no-pager --failed' || true
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'ls -l /usr/bin/ | egrep "(python|pip|ansible)"' || true
@@ -155,6 +154,11 @@ jobs:
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'ping -c 1 www.google.com' || true
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'ping -c 1 8.8.8.8' || true
         if: ${{ failure() }}
+        continue-on-error: true
+      - name: After script - ansible setup
+        run: |
+          sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'ansible -i inventory --connection=local -m setup localhost' || true
+        if: ${{ always() }}
         continue-on-error: true
       - name: After script - python
         run: |
