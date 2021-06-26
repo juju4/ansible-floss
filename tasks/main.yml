@@ -12,3 +12,4 @@
 
 - include: floss.yml
 - include: floss-build-exec.yml
+  when: floss_build_standalone

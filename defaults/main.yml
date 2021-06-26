@@ -15,3 +15,5 @@ floss_pip_module: https://github.com/fireeye/flare-floss/zipball/master
 # floss_pip: pip
 # floss_virtualenv: virtualenv
 # floss_python: python
+
+floss_build_standalone: true
