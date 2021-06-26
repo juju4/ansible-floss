@@ -34,6 +34,8 @@
   args:
     creates: dist/floss
     chdir: "{{ toolsetdir }}/floss"
+  environment:
+    PATH: "/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
   when: spec.stat.exists
 
 - name: install floss executable
