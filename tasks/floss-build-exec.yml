@@ -24,11 +24,17 @@
   register: pkg_result
   until: pkg_result is success
 
+- name: Check floss.spec is preset
+  stat:
+    path: "{{ toolsetdir }}/floss/.github/pyinstaller/floss.spec"
+  register: spec
+
 - name: build floss executable with pyinstaller
   command: "pyinstaller .github/pyinstaller/floss.spec"
   args:
     creates: dist/floss
     chdir: "{{ toolsetdir }}/floss"
+  when: spec.stat.exists
 
 - name: install floss executable
   copy:
@@ -36,3 +42,4 @@
     dest: /usr/local/bin/floss
     mode: '0755'
     remote_src: yes
+  when: spec.stat.exists
