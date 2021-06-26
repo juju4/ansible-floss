@@ -13,5 +13,3 @@ _floss_python: python3
 _floss_virtualenv: virtualenv
 _floss_virtualenv_pkg:
   - python-virtualenv
-
-floss_pyinstaller_version: 3.3.1
