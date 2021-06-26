@@ -13,12 +13,12 @@
   pre_tasks:
     - name: RHEL7 | set fact
       set_fact:
-        vivisect_pip: pip3.4
+        vivisect_pip: pip3.6
         vivisect_deps:
-          - python34
-          - python34-pip
+          - python36
+          - python36-pip
         vivisect_virtualenv:
-          - python34-virtualenv
+          - python36-virtualenv
       when: ansible_os_family == "RedHat" and ansible_distribution_version.split('.')[0] == '7'
     - name: Ubuntu | Install python3
       raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3-minimal)
