@@ -25,6 +25,11 @@
       register: python3
       changed_when: "'installed' in python3.stdout"
       when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version|int >= 16)
+    - name: RedHat7 | Install python3
+      raw: test -e /usr/bin/python3.6 || (yum install -y python36)
+      register: python3
+      changed_when: "'installed' in python3.stdout"
+      when: (ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 7)
     - name: RedHat | Install python3
       raw: test -e /usr/bin/python3 || (yum install -y python3)
       register: python3
@@ -32,7 +37,11 @@
       when: (ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 8)
     - name: Gather Facts
       setup:
-      when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version|int >= 16)
+    - name: Redhat 7 | Enforce python3.6 for ansible
+      set_fact:
+        ansible_python_interpreter: /usr/bin/python3.6
+      when: >
+        (ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 7)
     - name: Ubuntu Bionic+, Redhat 8+ | Enforce python3 for ansible
       set_fact:
         ansible_python_interpreter: /usr/bin/python3
