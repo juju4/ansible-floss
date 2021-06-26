@@ -21,7 +21,7 @@ jobs:
             version: 8
             version2: 8
             suite: default-python3
-            experimental: false
+            experimental: true
           - distribution: centos
             version: 7
             version2: 7
