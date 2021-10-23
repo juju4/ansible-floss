@@ -42,3 +42,6 @@ suites:
   - name: default-virtualenv
     run_list:
     attributes:
+  - name: default-pyinstaller
+    run_list:
+    attributes:
