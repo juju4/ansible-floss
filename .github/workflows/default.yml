@@ -21,12 +21,12 @@ jobs:
             version: 8
             version2: 8
             suite: default-python3
-            experimental: true
+            experimental: false
           - distribution: centos
             version: 7
             version2: 7
             suite: default-python3
-            experimental: false
+            experimental: true
           - distribution: ubuntu
             version: '20.04'
             version2: 2004
