@@ -21,7 +21,7 @@ jobs:
             version: 8-Stream
             version2: 8-Stream
             suite: default-python3
-            experimental: false
+            experimental: true
           - distribution: centos
             version: 7
             version2: 7
