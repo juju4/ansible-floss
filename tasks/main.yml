@@ -10,6 +10,6 @@
   include_vars: "Alpine.yml"
   when: ansible_os_family == "Alpine"
 
-- include: floss.yml
-- include: floss-build-exec.yml
+- import_tasks: floss.yml
+- import_tasks: floss-build-exec.yml
   when: floss_build_standalone
