@@ -1,13 +1,13 @@
 ---
 
 # - name: git clone floss
-#   git:
+#   ansible.builtin.git:
 #     repo=https://github.com/fireeye/flare-floss.git
 #     dest={{ toolsetdir }}/floss
 #     version={{ floss_version }}
 
 - name: ensure development packages are present
-  package: name={{ floss_dev_pkg }} state=present
+  ansible.builtin.package: name={{ floss_dev_pkg }} state=present
   register: pkg_result
   until: pkg_result is success
 
@@ -15,7 +15,7 @@
 
 ## https://github.com/erocarrera/pefile/issues/105
 - name: install floss source dependencies
-  pip:
+  ansible.builtin.pip:
     name: ['pytest', 'git+https://github.com/erocarrera/pefile@master']
     state: present
     executable: "{{ floss_pip | default(_floss_pip) }}"
@@ -24,31 +24,31 @@
 
 - block:
     - name: install floss with pip
-      pip:
+      ansible.builtin.pip:
         name: "{{ floss_pip_module }}"
         state: present
         executable: "{{ floss_pip | default(_floss_pip) }}"
       register: pkg_result
       until: pkg_result is success
     - name: default floss executable
-      template: src=floss.j2 dest=/usr/local/bin/floss.py mode=0755
+      ansible.builtin.template: src=floss.j2 dest=/usr/local/bin/floss.py mode=0755
   when: floss_virtualenv_path is not defined or not floss_virtualenv_path
 
 - block:
     - name: virtualenv dependencies
-      package: name={{ item }} state=present
+      ansible.builtin.package: name={{ item }} state=present
       with_items: "{{ floss_virtualenv_pkg | default(_floss_virtualenv_pkg) }}"
       register: pkg_result
       until: pkg_result is success
 
     - name: ensure virtualenv user {{ floss_virtualenv_user }} exists
-      user:
+      ansible.builtin.user:
         name: "{{ floss_virtualenv_user }}"
         home: "{{ floss_virtualenv_home }}"
         state: present
 
     - name: install floss python bindings - virtualenv
-      pip:
+      ansible.builtin.pip:
         name: "{{ floss_pip_module }}"
         state: present
         virtualenv: "{{ floss_virtualenv_path }}"
@@ -61,5 +61,5 @@
 
       ## FIXME! not idempotent
       # - name: ensure right permissions
-      #   file: "dest={{ floss_virtualenv_path }} state=directory owner={{ floss_virtualenv_user }} recurse=yes"
+      #   ansible.builtin.file: "dest={{ floss_virtualenv_path }} state=directory owner={{ floss_virtualenv_user }} recurse=yes"
   when: floss_virtualenv_path is defined and floss_virtualenv_path

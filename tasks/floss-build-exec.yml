@@ -1,14 +1,14 @@
 ---
 
 - name: git clone floss
-  git:
+  ansible.builtin.git:
     repo: https://github.com/fireeye/flare-floss.git
     dest: "{{ toolsetdir }}/floss"
     version: "{{ floss_version }}"
     recursive: "{{ floss_git_recurse | default('no') }}"
 
 - name: install floss executable build dependencies
-  apt:
+  ansible.builtin.apt:
     name: libpython2.7-dev
     state: present
   when: ansible_distribution_release == 'trusty'
@@ -16,7 +16,7 @@
   until: pkg_result is success
 
 - name: install floss executable build pip dependencies
-  pip:
+  ansible.builtin.pip:
     name: pyinstaller
     version: "{{ floss_pyinstaller_version | default('3.6') }}"
     state: present
@@ -25,12 +25,12 @@
   until: pkg_result is success
 
 - name: Check floss.spec is preset
-  stat:
+  ansible.builtin.stat:
     path: "{{ toolsetdir }}/floss/.github/pyinstaller/floss.spec"
   register: spec
 
 - name: build floss executable with pyinstaller
-  command: "pyinstaller .github/pyinstaller/floss.spec"
+  ansible.builtin.command: "pyinstaller .github/pyinstaller/floss.spec"
   args:
     creates: dist/floss
     chdir: "{{ toolsetdir }}/floss"
@@ -39,7 +39,7 @@
   when: spec.stat.exists
 
 - name: install floss executable
-  copy:
+  ansible.builtin.copy:
     src: "{{ toolsetdir }}/floss/dist/floss"
     dest: /usr/local/bin/floss
     mode: '0755'

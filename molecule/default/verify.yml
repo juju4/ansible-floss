@@ -4,10 +4,10 @@
   hosts: floss
   tasks:
   - name: Validate installed pip packages
-    command: pip freeze
+    ansible.builtin.command: pip freeze
     changed_when: false
     register: pip
   - name: Validate pip
-    assert:
+    ansible.builtin.assert:
       that: >
         "'vivisect' in pip.stdout and 'floss' in pip.stdout"
