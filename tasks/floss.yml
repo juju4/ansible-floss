@@ -22,7 +22,8 @@
   register: pkg_result
   until: pkg_result is success
 
-- block:
+- name: system pip
+  block:
     - name: install floss with pip
       ansible.builtin.pip:
         name: "{{ floss_pip_module }}"
@@ -34,7 +35,8 @@
       ansible.builtin.template: src=floss.j2 dest=/usr/local/bin/floss.py mode=0755
   when: floss_virtualenv_path is not defined or not floss_virtualenv_path
 
-- block:
+- name: virtualenv pip
+  block:
     - name: virtualenv dependencies
       ansible.builtin.package: name={{ item }} state=present
       with_items: "{{ floss_virtualenv_pkg | default(_floss_virtualenv_pkg) }}"
