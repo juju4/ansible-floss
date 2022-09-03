@@ -4,7 +4,7 @@
 ## trusty gets:
 ## https://github.com/Toblerity/Shapely/issues/305      ImportError: No module named packaging.version
 ## https://github.com/pypa/setuptools/issues/937
-- name: check current pip version
+- name: Check current pip version
   ansible.builtin.shell: |
     set -o pipefail
     {{ floss_pip | default(_floss_pip) }} --version | sed "s/pip \(.*\) from .*/\1/"
@@ -17,21 +17,21 @@
   ansible.builtin.debug: var=pipv.stdout
 
 ## does not seem to be handled well by ansible pip module
-- name: old pip
+- name: Old pip
   block:
 
-    - name: upgrade pip to 20.3.4 - last python2
+    - name: Upgrade pip to 20.3.4 - last python2
       ansible.builtin.pip:
         name: pip
         version: 20.3.4
         executable: "{{ floss_pip | default(_floss_pip) }}"
       when: ansible_os_family != "Debian"
 
-    - name: upgrade setuptools to 44.1.1 - last python2
+    - name: Upgrade setuptools to 44.1.1 - last python2
       ansible.builtin.pip:
         name: setuptools
         version: 44.1.1
         executable: "{{ floss_pip | default(_floss_pip) }}"
       when: ansible_os_family != "Debian"
 
-  when: pipv.stdout is version_compare( '10.1', '<')
+  when: pipv.stdout is version_compare('10.1', '<')

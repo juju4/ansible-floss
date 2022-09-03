@@ -6,7 +6,7 @@
 #     dest={{ toolsetdir }}/floss
 #     version={{ floss_version }}
 
-- name: ensure development packages are present
+- name: Ensure development packages are present
   ansible.builtin.package: name={{ floss_dev_pkg }} state=present
   register: pkg_result
   until: pkg_result is success
@@ -14,7 +14,7 @@
 - import_tasks: pip-upgrade.yml
 
 ## https://github.com/erocarrera/pefile/issues/105
-- name: install floss source dependencies
+- name: Install floss source dependencies
   ansible.builtin.pip:
     name: ['pytest', 'git+https://github.com/erocarrera/pefile@master']
     state: present
@@ -22,34 +22,34 @@
   register: pkg_result
   until: pkg_result is success
 
-- name: system pip
+- name: System pip
   block:
-    - name: install floss with pip
+    - name: Install floss with pip
       ansible.builtin.pip:
         name: "{{ floss_pip_module }}"
         state: present
         executable: "{{ floss_pip | default(_floss_pip) }}"
       register: pkg_result
       until: pkg_result is success
-    - name: default floss executable
+    - name: Default floss executable
       ansible.builtin.template: src=floss.j2 dest=/usr/local/bin/floss.py mode=0755
   when: floss_virtualenv_path is not defined or not floss_virtualenv_path
 
-- name: virtualenv pip
+- name: Virtualenv pip
   block:
-    - name: virtualenv dependencies
+    - name: Virtualenv dependencies
       ansible.builtin.package: name={{ item }} state=present
       with_items: "{{ floss_virtualenv_pkg | default(_floss_virtualenv_pkg) }}"
       register: pkg_result
       until: pkg_result is success
 
-    - name: ensure virtualenv user {{ floss_virtualenv_user }} exists
+    - name: Ensure virtualenv user {{ floss_virtualenv_user }} exists
       ansible.builtin.user:
         name: "{{ floss_virtualenv_user }}"
         home: "{{ floss_virtualenv_home }}"
         state: present
 
-    - name: install floss python bindings - virtualenv
+    - name: Install floss python bindings - virtualenv
       ansible.builtin.pip:
         name: "{{ floss_pip_module }}"
         state: present
