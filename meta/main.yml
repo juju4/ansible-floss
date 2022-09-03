@@ -12,10 +12,8 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - bionic
-        - trusty
-        - xenial
-        - bionic
         - focal
+        - jammy
   galaxy_tags:
     - system
     - security
