@@ -10,6 +10,8 @@
   ansible.builtin.include_vars: "Alpine.yml"
   when: ansible_os_family == "Alpine"
 
-- import_tasks: floss.yml
-- import_tasks: floss-build-exec.yml
+- name: Import floss
+  ansible.builtin.import_tasks: floss.yml
+- name: Import floss-build-exec
+  ansible.builtin.import_tasks: floss-build-exec.yml
   when: floss_build_standalone

@@ -7,11 +7,14 @@
 #     version={{ floss_version }}
 
 - name: Ensure development packages are present
-  ansible.builtin.package: name={{ floss_dev_pkg }} state=present
+  ansible.builtin.package:
+    name: "{{ floss_dev_pkg }}"
+    state: "present"
   register: pkg_result
   until: pkg_result is success
 
-- import_tasks: pip-upgrade.yml
+- name: Import pip-upgrade
+  ansible.builtin.import_tasks: pip-upgrade.yml
 
 ## https://github.com/erocarrera/pefile/issues/105
 - name: Install floss source dependencies
@@ -23,6 +26,7 @@
   until: pkg_result is success
 
 - name: System pip
+  when: floss_virtualenv_path is not defined or not floss_virtualenv_path
   block:
     - name: Install floss with pip
       ansible.builtin.pip:
@@ -32,18 +36,23 @@
       register: pkg_result
       until: pkg_result is success
     - name: Default floss executable
-      ansible.builtin.template: src=floss.j2 dest=/usr/local/bin/floss.py mode=0755
-  when: floss_virtualenv_path is not defined or not floss_virtualenv_path
+      ansible.builtin.template:
+        src: floss.j2
+        dest: /usr/local/bin/floss.py
+        mode: 0755
 
 - name: Virtualenv pip
+  when: floss_virtualenv_path is defined and floss_virtualenv_path
   block:
     - name: Virtualenv dependencies
-      ansible.builtin.package: name={{ item }} state=present
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: "present"
       with_items: "{{ floss_virtualenv_pkg | default(_floss_virtualenv_pkg) }}"
       register: pkg_result
       until: pkg_result is success
 
-    - name: Ensure virtualenv user {{ floss_virtualenv_user }} exists
+    - name: Ensure virtualenv user exists - {{ floss_virtualenv_user }}
       ansible.builtin.user:
         name: "{{ floss_virtualenv_user }}"
         home: "{{ floss_virtualenv_home }}"
@@ -64,4 +73,3 @@
       ## FIXME! not idempotent
       # - name: ensure right permissions
       #   ansible.builtin.file: "dest={{ floss_virtualenv_path }} state=directory owner={{ floss_virtualenv_user }} recurse=yes"
-  when: floss_virtualenv_path is defined and floss_virtualenv_path
