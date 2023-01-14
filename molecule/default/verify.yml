@@ -3,11 +3,11 @@
 - name: Verify
   hosts: floss
   tasks:
-  - name: Validate installed pip packages
-    ansible.builtin.command: pip freeze
-    changed_when: false
-    register: pip
-  - name: Validate pip
-    ansible.builtin.assert:
-      that: >
-        "'vivisect' in pip.stdout and 'floss' in pip.stdout"
+    - name: Validate installed pip packages
+      ansible.builtin.command: pip freeze
+      changed_when: false
+      register: pip
+    - name: Validate pip
+      ansible.builtin.assert:
+        that: >
+          "'vivisect' in pip.stdout and 'floss' in pip.stdout"
