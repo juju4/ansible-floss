@@ -122,6 +122,10 @@ jobs:
         run: |
           which fastlane
           dpkg -l | grep fastlane
+          gem query --local | grep fastlane
+          gem uninstall fastlane || true
+          rm /usr/local/bin/fastlane || true
+        continue-on-error: true
       - name: Install kitchen requirements
         run: |
           sudo gem install test-kitchen --version "=1.25.0"
