@@ -13,7 +13,7 @@ jobs:
   build:
     permissions:
       contents: read
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
@@ -128,8 +128,8 @@ jobs:
         continue-on-error: true
       - name: Install kitchen requirements
         run: |
-          sudo gem install nori --version "=2.6.0"
-          sudo gem install ffi --version "=1.17.0"
+          # sudo gem install nori --version "=2.6.0"
+          # sudo gem install ffi --version "=1.17.0"
           sudo gem install test-kitchen --version "=1.25.0"
           sudo gem install kitchen-ansible
           sudo gem install kitchen-sync
