@@ -129,6 +129,7 @@ jobs:
       - name: Install kitchen requirements
         run: |
           sudo gem install nori --version "=2.6.0"
+          sudo gem install ffi --version "=1.17.0"
           sudo gem install test-kitchen --version "=1.25.0"
           sudo gem install kitchen-ansible
           sudo gem install kitchen-sync
