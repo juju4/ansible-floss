@@ -120,6 +120,10 @@ jobs:
           [ "X${{ matrix.distribution }}" == "Xcentos" ] && cd $GITHUB_WORKSPACE/juju4.floss && sudo sh -x ./test/lxd/centos-ssh-image.sh ${{ matrix.version }} || true
       - name: Install kitchen requirements
         run: |
+          which fastlane
+          dpkg -l | grep fastlane
+      - name: Install kitchen requirements
+        run: |
           sudo gem install test-kitchen --version "=1.25.0"
           sudo gem install kitchen-ansible
           sudo gem install kitchen-sync
