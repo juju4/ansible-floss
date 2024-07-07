@@ -121,7 +121,7 @@ jobs:
       - name: Install kitchen requirements
         run: |
           which fastlane
-          dpkg -l | grep fastlane
+          dpkg -l | grep fastlane || true
           gem query --local || true
           gem uninstall fastlane || true
           rm /usr/local/bin/fastlane || true
