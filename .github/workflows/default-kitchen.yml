@@ -102,10 +102,10 @@ jobs:
           ip addr || true
           # https://discuss.linuxcontainers.org/t/fresh-install-of-ubuntu-22-04-lxd-via-snap-containers-cannot-reach-the-internet/14538
           # flush the DOCKER-USER (remove old rules)
-          iptables -F DOCKER-USER
+          sudo iptables -F DOCKER-USER
           # add rules specifically for lxdbr0
-          iptables -A DOCKER-USER -o lxdbr0 -j ACCEPT
-          iptables -A DOCKER-USER -i lxdbr0 -j ACCEPT
+          sudo iptables -A DOCKER-USER -o lxdbr0 -j ACCEPT
+          sudo iptables -A DOCKER-USER -i lxdbr0 -j ACCEPT
           sudo lxc info
           sudo lxc network list
           sudo lxc network create lxdbr0
