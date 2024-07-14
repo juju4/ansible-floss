@@ -101,6 +101,8 @@ jobs:
           ifconfig -a || true
           ip addr || true
           # https://discuss.linuxcontainers.org/t/fresh-install-of-ubuntu-22-04-lxd-via-snap-containers-cannot-reach-the-internet/14538
+          sudo iptables -L -vn
+          sudo nft list ruleset
           # flush the DOCKER-USER (remove old rules)
           sudo iptables -F DOCKER-USER
           # add rules specifically for lxdbr0
@@ -112,7 +114,7 @@ jobs:
           sudo lxc network show lxdbr0
           sudo lxc network attach-profile lxdbr0 default ens4
           sudo lxc profile device get default ens4 nictype || true
-          sudo service lxd restart || true
+          sudo systemctl restart snap.lxd.daemon || true
           ps ax | grep dnsmasq
           systemctl status -l --no-pager lxd || true
           cat /etc/network/interfaces.d/50-cloud-init.cfg || true
@@ -201,5 +203,10 @@ jobs:
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'pip show flare-floss' || true
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'pip3 freeze' || true
           sudo kitchen exec ${{ matrix.suite }}-${{ matrix.distribution }}-${{ matrix.version2 }} -c 'ls -lA /usr/local/bin/' || true
+        if: ${{ always() }}
+        continue-on-error: true
+      - name: After script - host lxd
+        run: |
+          sudo systemctl status snap.lxd.daemon -l --no-pager
         if: ${{ always() }}
         continue-on-error: true
