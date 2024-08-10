@@ -9,18 +9,35 @@
     floss_virtualenv: virtualenv
     floss_python: python2
   pre_tasks:
-    - name: RHEL8 | set fact
+    - name: Ubuntu Focal | Enforce python3 as only one
       ansible.builtin.set_fact:
-        vivisect_pip: pip2
+        vivisect_pip: pip3
+        vivisect_vcommand: virtualenv3
+        vivisect_python: python3
         vivisect_deps:
-          - python2
-          - python2-pip
+          - python3
+          - python3-pip
         vivisect_virtualenv:
-          - python2-virtualenv
-        floss_pip: pip2
-        floss_virtualenv: virtualenv
-        floss_python: python2
-      when: ansible_os_family == "RedHat" and ansible_distribution_version.split('.')[0] == '8'
+          - python3-virtualenv
+        floss_pip: pip3
+        floss_virtualenv: virtualenv3
+        floss_python: python3
+      when: >
+        (ansible_distribution == "Ubuntu" and ansible_distribution_major_version|int >= 20)
+    - name: Redhat 8+ | Enforce python3
+      ansible.builtin.set_fact:
+        vivisect_pip: pip3
+        vivisect_vcommand: virtualenv-3
+        vivisect_python: python3
+        vivisect_deps:
+          - python3
+          - python3-pip
+        vivisect_virtualenv: python3-virtualenv
+        floss_pip: pip3
+        floss_virtualenv: virtualenv-3
+        floss_python: python3
+      when: >
+        (ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 8)
     - name: RHEL7 | set fact
       ansible.builtin.set_fact:
         vivisect_pip: pip
