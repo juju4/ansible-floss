@@ -3,11 +3,17 @@
 - name: Test integration playbook
   hosts: all
   vars:
-    vivisect_pip: pip2
-    vivisect_vcommand: virtualenv
-    floss_pip: pip2
-    floss_virtualenv: virtualenv
-    floss_python: python2
+    vivisect_pip: pip3
+    vivisect_vcommand: virtualenv3
+    vivisect_python: python3
+    vivisect_deps:
+      - python3
+      - python3-pip
+    vivisect_virtualenv:
+      - python3-virtualenv
+    floss_pip: pip3
+    floss_virtualenv: virtualenv3
+    floss_python: python3
   pre_tasks:
     - name: RHEL8 | set fact
       ansible.builtin.set_fact:
