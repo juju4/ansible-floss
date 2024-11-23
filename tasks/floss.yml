@@ -39,7 +39,7 @@
       ansible.builtin.template:
         src: floss.j2
         dest: /usr/local/bin/floss.py
-        mode: 0755
+        mode: '0755'
 
 - name: Virtualenv pip
   when: floss_virtualenv_path is defined and floss_virtualenv_path
