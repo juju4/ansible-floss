@@ -1,0 +1,16 @@
+---
+
+- name: Verify
+  hosts: floss
+  vars:
+    floss_virtualenv_path: "{{ lookup('env', 'HOME') }}/env"
+  tasks:
+    - name: Validate installed pip packages
+      ansible.builtin.command:
+        cmd: "{{ floss_virtualenv_path }}/bin/pip freeze"
+      changed_when: false
+      register: pip
+    - name: Validate pip
+      ansible.builtin.assert:
+        that: >
+          "'vivisect' in pip.stdout and 'floss' in pip.stdout"
