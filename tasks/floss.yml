@@ -26,7 +26,7 @@
   until: pkg_result is success
 
 - name: System pip
-  when: floss_virtualenv_path is not defined or not floss_virtualenv_path
+  when: floss_virtualenv_path is not defined or floss_virtualenv_path | length <= 0
   block:
     - name: Install floss with pip
       ansible.builtin.pip:
@@ -42,7 +42,7 @@
         mode: '0755'
 
 - name: Virtualenv pip
-  when: floss_virtualenv_path is defined and floss_virtualenv_path
+  when: floss_virtualenv_path is defined and floss_virtualenv_path | length > 0
   block:
     - name: Virtualenv dependencies
       ansible.builtin.package:
