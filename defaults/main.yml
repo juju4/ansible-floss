@@ -3,7 +3,8 @@
 toolsetdir: /opt/tools
 
 # 'Could not find a version that satisfies the requirement vivisect==v0.0.20200611 (from floss==1.6.1) (from versions: )"'
-floss_version: HEAD
+# renovate: datasource=github-releases depName=mandiant/flare-floss
+floss_version: 'v3.1.1'
 floss_pip_module: https://github.com/fireeye/flare-floss/zipball/master
 
 ## if undefined, global install, else in corresponding virtualenv
