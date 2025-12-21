@@ -1,12 +1,10 @@
 ---
-name: default-bare
+name: default-bare-monthly
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
-  schedule:  # run weekly, every Wednesday 05:00
-    - cron: '0 5 * * 3'
+  schedule:  # run on the 11th of the month at 01:00 UTC
+    - cron: '0 1 11 * *'
   merge_group:
 
 concurrency:
@@ -24,11 +22,23 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
-      max-parallel: 4
+      max-parallel: 2
       matrix:
         include:
           - distribution: ubuntu
             version: '24.04'
+            suite: default
+            experimental: true
+          - distribution: ubuntu
+            version: '22.04'
+            suite: default
+            experimental: true
+          - distribution: ubuntu
+            version: '24.04'
+            suite: default-virtualenv
+            experimental: false
+          - distribution: ubuntu
+            version: '22.04'
             suite: default-virtualenv
             experimental: false
     env:
@@ -38,12 +48,11 @@ jobs:
       ANSIBLE_SUITE: ${{ matrix.suite }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3  # v6.0.0
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
         with:
           path: ${{ env.ANSIBLE_ROLE }}
       - name: Set up Python
-        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548  # v6.1.0
+        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6
         with:
           python-version: '3.x'
       - name: Cache
@@ -67,7 +76,7 @@ jobs:
           cd $GITHUB_WORKSPACE/$ANSIBLE_ROLE
           [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
           [ -f molecule/$ANSIBLE_SUITE/requirements.yml ] && ansible-galaxy install -r molecule/$ANSIBLE_SUITE/requirements.yml
-          { echo '[defaults]'; echo 'callbacks_enabled = profile_tasks, timer'; echo 'roles_path = ../:/home/runner/.ansible/roles'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
+          { echo '[defaults]'; echo 'callback_enabled = profile_tasks, timer'; echo 'roles_path = ../:/home/runner/.ansible/roles'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
       - name: Environment
         run: |
           set -x
