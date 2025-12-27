@@ -11,7 +11,7 @@
   ansible.builtin.apt:
     name: libpython2.7-dev
     state: present
-  when: ansible_distribution_release == 'trusty'
+  when: ansible_facts['distribution_release'] == 'trusty'
   register: pkg_result
   until: pkg_result is success
 

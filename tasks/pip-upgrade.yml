@@ -27,11 +27,11 @@
         name: pip
         version: 20.3.4
         executable: "{{ floss_pip | default(_floss_pip) }}"
-      when: ansible_os_family != "Debian"
+      when: ansible_facts['os_family'] != "Debian"
 
     - name: Upgrade setuptools to 44.1.1 - last python2
       ansible.builtin.pip:
         name: setuptools
         version: 44.1.1
         executable: "{{ floss_pip | default(_floss_pip) }}"
-      when: ansible_os_family != "Debian"
+      when: ansible_facts['os_family'] != "Debian"
