@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
 
       - name: 'Release on galaxy'
-        uses: ansible-actions/ansible-galaxy-action@6583ad2de12dd12433683826fe7ba26a28d3382f
+        uses: ansible-actions/ansible-galaxy-action@c1e5763add9e0b2f731541278f10deb3c7ffcdb1
         with:
           galaxy_api_key: ${{ secrets.galaxy_api_key }}
           galaxy_version: 'main'
