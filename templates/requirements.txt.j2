@@ -1,0 +1,7 @@
+{% if floss_pip_module | length > 0 %}
+{{ floss_pip_module }}
+{% else %}
+flare-floss={{ floss_version | regex_replace('^v', '') }}
+{% endif %}
+pefile==2024.8.26
+pytest==9.0.3

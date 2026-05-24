@@ -16,23 +16,19 @@
 - name: Import pip-upgrade
   ansible.builtin.import_tasks: pip-upgrade.yml
 
-## https://github.com/erocarrera/pefile/issues/105
-- name: Install floss source dependencies
-  ansible.builtin.pip:
-    name: ['pytest', 'git+https://github.com/erocarrera/pefile@master']
-    state: present
-    executable: "{{ floss_pip | default(_floss_pip) }}"
-  register: pkg_result
-  until: pkg_result is success
+- name: Copy floss requirements
+  ansible.builtin.template:
+    src: requirements.txt.j2
+    dest: "{{ toolsetdir }}/requirements.txt"
+    mode: '0600'
 
 - name: System pip
   when: floss_virtualenv_path is not defined or floss_virtualenv_path | length <= 0
   block:
-    - name: Install floss with pip
+    - name: Ensure floss is present
       ansible.builtin.pip:
-        name: "{{ floss_pip_module }}"
-        state: present
-        executable: "{{ floss_pip | default(_floss_pip) }}"
+        requirements: "{{ toolsetdir }}/requirements.txt"
+        executable: "{{ pip_bin | default('pip3') }}"
       register: pkg_result
       until: pkg_result is success
     - name: Default floss executable
@@ -60,7 +56,7 @@
 
     - name: Install floss python bindings - virtualenv
       ansible.builtin.pip:
-        name: "{{ floss_pip_module }}"
+        requirements: "{{ toolsetdir }}/requirements.txt"
         state: present
         virtualenv: "{{ floss_virtualenv_path }}"
         virtualenv_python: "{{ floss_python | default(_floss_python) }}"
