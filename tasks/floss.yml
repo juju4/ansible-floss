@@ -1,10 +1,10 @@
 ---
 
-# - name: git clone floss
-#   ansible.builtin.git:
-#     repo=https://github.com/fireeye/flare-floss.git
-#     dest={{ toolsetdir }}/floss
-#     version={{ floss_version }}
+- name: Ensure tools dir exists
+  ansible.builtin.file:
+    path: "{{ toolsetdir }}"
+    state: directory
+    mode: '0755'
 
 - name: Ensure development packages are present
   ansible.builtin.package:
